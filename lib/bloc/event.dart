@@ -36,5 +36,5 @@ class CheckEnteredCode extends LoginEvent {
   final String phone;
 
   @override
-  List<Object?> get props => [code];
+  List<Object?> get props => [code,phone];
 }

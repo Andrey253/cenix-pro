@@ -14,15 +14,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
+
     if (event is PhoneChangeEvent) {
       if (regex.hasMatch(event.phone)) {
         yield const PhoneInputState();
       } else {
         yield const PhoneInputState(error: 'Не вырный формат');
       }
-    }
-
-    if (event is CheckEnteredCode) {
+    } else if (event is CheckEnteredCode) {
       yield const LoginSuccessState(true);
       try {
         final token = await repository.checkCode(event.phone, event.code);
@@ -30,11 +29,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } on Exception catch (e) {
         yield const PhoneInputState(error: 'Pin is not valid');
       }
-    }
-    if (event is ReenterPhoneEvent) {
+    } else if (event is ReenterPhoneEvent) {
       yield const PhoneInputState();
-    }
-    if (event is PhoneEnteredEvent) {
+    } else if (event is PhoneEnteredEvent) {
       if (regex.hasMatch(event.phone)) {
         try {
           yield const LoginSuccessState(true);
@@ -47,6 +44,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
 
       //TODO: describe logic
-    }
+    } else {}
   }
 }

@@ -137,10 +137,10 @@ class _LoginFormState extends State<LoginForm> {
                     followingFieldDecoration: pinPutDecoration,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: onPhoneSubmitted,
-                  child: const Text('Continue'),
-                ),
+                // ElevatedButton(
+                //   onPressed: onPhoneSubmitted,
+                //   child: const Text('Continue'),
+                // ),
                 TextButton(onPressed: reenterPhone, child: const Text('Change phone')),
               ]);
             } else {
