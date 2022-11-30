@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pin_put/pin_put.dart';
-import 'package:test_task/bloc/event.dart';
 import 'package:test_task/bloc/state.dart';
 import 'package:test_task/repository/repository_implementation.dart';
 
@@ -41,6 +40,7 @@ class _LoginFormState extends State<LoginForm> {
     pinController.addListener(() {
       if (pinController.text.length == pinLength) {
         loginBloc.onPinEntered(pinController.text, phoneController.text);
+        pinController.text = '';
       }
     });
     super.initState();
@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
             //TODO show progress when state.isLoading is true
 
             final columnChildren = <Widget>[];
-            if (state.isLoading) {
+            if (state is LoadingState) {
               columnChildren.addAll([
                 const Center(child: Text('Loading.....')),
                 const Center(child: CircularProgressIndicator()),

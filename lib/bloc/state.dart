@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 abstract class LoginState extends Equatable {
-  const LoginState({this.error, this.isLoading = false});
+  const LoginState({this.error});
 
   final String? error;
-  final bool isLoading;
+
 
   @override
-  List<Object?> get props => [error, isLoading];
+  List<Object?> get props => [error];
 }
 
 class PhoneInputState extends LoginState {
@@ -21,6 +21,9 @@ class SmsRequestedState extends LoginState {
 }
 
 class LoginSuccessState extends LoginState {
-  const LoginSuccessState(bool isLoading) : super(isLoading: isLoading);
+  const LoginSuccessState();
+}
+class LoadingState extends LoginState {
+  const LoadingState();
 }
 
