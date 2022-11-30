@@ -39,8 +39,7 @@ class _LoginFormState extends State<LoginForm> {
     loginBloc = context.read<LoginBloc>();
     pinController.addListener(() {
       if (pinController.text.length == pinLength) {
-        loginBloc.onPinEntered(pinController.text, phoneController.text);
-        pinController.text = '';
+        loginBloc.onPinEntered(pinController, phoneController.text);
       }
     });
     super.initState();

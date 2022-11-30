@@ -7,7 +7,7 @@ class MockLoginRepositoryImplementation extends LoginRepository {
   Future<String> checkCode(String phone, String code) async {
     await Future.delayed(const Duration(milliseconds: 2200));
     final random = Random().nextBool();
-    if (random) {
+    if (false) {
       return 'token';
     } else {
       throw Exception('Code is incorrect');
