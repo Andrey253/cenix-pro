@@ -107,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                       controller: phoneController,
                       decoration: InputDecoration(
                           errorText: state.error,
-                          labelText: '+7 (10 digit)',
+                          labelText: '+7 *** *** ** **',
                           filled: true,
                           fillColor: Colors.white.withAlpha(235),
                           border: const OutlineInputBorder())),
