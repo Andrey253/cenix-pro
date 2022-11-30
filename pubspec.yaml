@@ -17,7 +17,7 @@ dependencies:
     sdk: flutter
 
   #BLoC
-  flutter_bloc: ^7.0.1
+  flutter_bloc: ^8.1.1
   equatable: ^2.0.3
 
   pinput: ^1.2.0

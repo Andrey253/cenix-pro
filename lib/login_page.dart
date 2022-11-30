@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
     loginBloc = context.read<LoginBloc>();
     pinController.addListener(() {
       if (pinController.text.length == pinLength) {
-        onPinEntered();
+        loginBloc.onPinEntered(pinController.text, phoneController.text);
       }
     });
     super.initState();
@@ -53,22 +53,6 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   //TODO show errors in any appropriate way (with dialog or as a red color text under the input field or any other way)
-
-  void onPhoneSubmitted() {
-    //TODO add action
-    pinController.text = '';
-    loginBloc.add(PhoneEnteredEvent(phoneController.text));
-  }
-
-  void onPinEntered() {
-    loginBloc.add(CheckEnteredCode(pinController.text,phoneController.text));
-    //TODO add action
-  }
-
-  void reenterPhone() {
-    loginBloc.add(ReenterPhoneEvent());
-    //TODO add action
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                       keyboardType: TextInputType.phone,
                       cursorHeight: 20,
                       style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                      onChanged: (_) => loginBloc.add(PhoneChangeEvent(phoneController.text)),
+                      onChanged: (_) => loginBloc.onPhoneChanged(phoneController.text),
                       controller: phoneController,
                       decoration: InputDecoration(
                           errorText: state.error,
@@ -113,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
                           border: const OutlineInputBorder())),
                 ),
                 ElevatedButton(
-                  onPressed: onPhoneSubmitted,
+                  onPressed: () => loginBloc.onPhoneSubmitted(phoneController.text),
                   child: const Text('Continue'),
                 ),
               ]);
@@ -141,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                 //   onPressed: onPhoneSubmitted,
                 //   child: const Text('Continue'),
                 // ),
-                TextButton(onPressed: reenterPhone, child: const Text('Change phone')),
+                TextButton(onPressed: loginBloc.reenterPhone, child: const Text('Change phone')),
               ]);
             } else {
               columnChildren.add(const Text('Success'));
