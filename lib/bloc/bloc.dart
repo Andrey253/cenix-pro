@@ -10,36 +10,49 @@ class LoginBloc extends Cubit<LoginState> {
   RegExp regex = RegExp(r'^\+\d{11}$');
 
   Future<void> onPhoneChanged(String phone) async {
-    emit(regex.hasMatch(phone)
+    LoginState _state = regex.hasMatch(phone)
         ? const PhoneInputState()
-        : const PhoneInputState(error: 'Не вырный формат'));
+        : const PhoneInputState(error: 'Не вырный формат');
+    if (_state != state) emit(_state);
   }
 
   Future<void> onPinEntered(TextEditingController code, String phone) async {
-    emit(const LoadingState());
+    LoginState _state = const LoadingState();
+    if (_state != state) emit(_state);
+
     try {
       //  final token =
       await repository.checkCode(phone, code.text);
-      emit(const LoginSuccessState());
+
+      _state = const LoginSuccessState();
+      if (_state != state) emit(_state);
     } on Exception catch (_) {
       code.text = '';
-      emit(const PhoneInputState(error: 'Error checking Pin'));
+      _state = const PhoneInputState(error: 'Error checking Pin');
+      if (_state != state) emit(_state);
     }
   }
 
   Future<void> onPhoneSubmitted(String phone) async {
     if (regex.hasMatch(phone)) {
+      LoginState _state;
       try {
-        emit(const LoadingState());
+        _state = const LoadingState();
+
+        if (_state != state) emit(_state);
+
         await repository.requestSms(phone);
-        emit(SmsRequestedState(phone));
+        _state = SmsRequestedState(phone);
+        if (_state != state) emit(_state);
       } on Exception catch (_) {
-        emit(const PhoneInputState(error: 'Error geting Sms'));
+        _state = const PhoneInputState(error: 'Error geting Sms');
+        if (_state != state) emit(_state);
       }
     }
   }
 
   Future<void> reenterPhone() async {
-    emit(const PhoneInputState());
+    LoginState _state = const PhoneInputState();
+    if (_state != state) emit(_state);
   }
 }
