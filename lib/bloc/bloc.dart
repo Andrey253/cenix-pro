@@ -15,18 +15,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginEvent event,
   ) async* {
     if (event is PhoneChangeEvent) {
-      phoneChange(repository, state, event);
+      yield* phoneChange(repository, state, event);
     } else if (event is CheckEnteredCode) {
-      checkEnteredCode(repository, state, event);
+      yield* checkEnteredCode(repository, state, event);
     } else if (event is ReenterPhoneEvent) {
-      reenterPhone(repository, state, event);
+      yield* reenterPhone(repository, state, event);
     } else if (event is PhoneEnteredEvent) {
-      phoneEntered(repository, state, event);
+      yield* phoneEntered(repository, state, event);
     }
   }
 
-  Stream<LoginState> phoneEntered(LoginRepository repository, LoginState state,
-      PhoneEnteredEvent event) async* {
+  Stream<LoginState> phoneEntered(
+      LoginRepository repository, LoginState state, PhoneEnteredEvent event) async* {
     if (regex.hasMatch(event.phone)) {
       LoginState _state;
       try {
@@ -42,8 +42,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> checkEnteredCode(LoginRepository repository,
-      LoginState state, CheckEnteredCode event) async* {
+  Stream<LoginState> checkEnteredCode(
+      LoginRepository repository, LoginState state, CheckEnteredCode event) async* {
     LoginState _state;
     _state = const LoginSuccessState(true);
     if (_state != state) yield _state;
@@ -57,8 +57,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (_state != state) yield _state;
   }
 
-  Stream<LoginState> phoneChange(LoginRepository repository,
-      LoginState state, PhoneChangeEvent event) async* {
+  Stream<LoginState> phoneChange(
+      LoginRepository repository, LoginState state, PhoneChangeEvent event) async* {
     LoginState _state;
     if (regex.hasMatch(event.phone)) {
       _state = const PhoneInputState();
@@ -68,8 +68,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (_state != state) yield _state;
   }
 
-  Stream<LoginState> reenterPhone(LoginRepository repository,
-      LoginState state, ReenterPhoneEvent event) async* {
+  Stream<LoginState> reenterPhone(
+      LoginRepository repository, LoginState state, ReenterPhoneEvent event) async* {
     if (state != const PhoneInputState()) yield const PhoneInputState();
   }
 }
