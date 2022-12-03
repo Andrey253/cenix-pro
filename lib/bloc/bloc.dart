@@ -32,8 +32,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _state = const LoginSuccessState(false);
       } on Exception catch (_) {
         _state = const PhoneInputState(error: 'Pin is not valid');
-        if (_state != state) yield _state;
       }
+        if (_state != state) yield _state;
+
     } else if (event is ReenterPhoneEvent) {
       _state = const PhoneInputState();
       if (_state != state) yield _state;
