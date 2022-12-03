@@ -30,7 +30,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         //  final token =
         await repository.checkCode(event.phone, event.code);
         _state = const LoginSuccessState(false);
-        if (_state != state) yield _state;
       } on Exception catch (_) {
         _state = const PhoneInputState(error: 'Pin is not valid');
         if (_state != state) yield _state;
@@ -48,8 +47,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           _state = SmsRequestedState(event.phone);
         } on Exception catch (_) {
           _state = const PhoneInputState(error: 'Error geting Sms');
-          if (_state != state) yield _state;
         }
+          if (_state != state) yield _state;
       }
 
       //TODO: describe logic
