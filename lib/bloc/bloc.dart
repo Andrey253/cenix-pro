@@ -14,36 +14,45 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
+    LoginState _state;
+
     if (event is PhoneChangeEvent) {
       if (regex.hasMatch(event.phone)) {
-        yield const PhoneInputState();
+        _state = const PhoneInputState();
       } else {
-        yield const PhoneInputState(error: 'Не вырный формат');
+        _state = const PhoneInputState(error: 'Не вырный формат');
       }
+      if (_state != state) yield _state;
     } else if (event is CheckEnteredCode) {
-      yield const LoginSuccessState(true);
+      _state = const LoginSuccessState(true);
+      if (_state != state) yield _state;
       try {
-      //  final token = 
+        //  final token =
         await repository.checkCode(event.phone, event.code);
-        yield const LoginSuccessState(false);
+        _state = const LoginSuccessState(false);
+        if (_state != state) yield _state;
       } on Exception catch (_) {
-        yield const PhoneInputState(error: 'Pin is not valid');
+        _state = const PhoneInputState(error: 'Pin is not valid');
+        if (_state != state) yield _state;
       }
     } else if (event is ReenterPhoneEvent) {
-      yield const PhoneInputState();
+      _state = const PhoneInputState();
+      if (_state != state) yield _state;
     } else if (event is PhoneEnteredEvent) {
       if (regex.hasMatch(event.phone)) {
         try {
-          yield const LoginSuccessState(true);
+          _state = const LoginSuccessState(true);
+          if (_state != state) yield _state;
           await repository.requestSms(event.phone);
           const LoginSuccessState(false);
-          yield SmsRequestedState(event.phone);
+          _state = SmsRequestedState(event.phone);
         } on Exception catch (_) {
-          yield const PhoneInputState(error: 'Error geting Sms');
+          _state = const PhoneInputState(error: 'Error geting Sms');
+          if (_state != state) yield _state;
         }
       }
 
       //TODO: describe logic
-    } else {}
+    }
   }
 }
