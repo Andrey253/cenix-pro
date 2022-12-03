@@ -23,14 +23,12 @@ class LoginBloc extends Cubit<LoginState> {
     try {
       //  final token =
       await repository.checkCode(phone, code.text);
-
       _state = const LoginSuccessState();
-      if (_state != state) emit(_state);
     } on Exception catch (_) {
       code.text = '';
       _state = const PhoneInputState(error: 'Error checking Pin');
-      if (_state != state) emit(_state);
     }
+      if (_state != state) emit(_state);
   }
 
   Future<void> onPhoneSubmitted(String phone) async {
@@ -43,11 +41,10 @@ class LoginBloc extends Cubit<LoginState> {
 
         await repository.requestSms(phone);
         _state = SmsRequestedState(phone);
-        if (_state != state) emit(_state);
       } on Exception catch (_) {
         _state = const PhoneInputState(error: 'Error geting Sms');
-        if (_state != state) emit(_state);
       }
+        if (_state != state) emit(_state);
     }
   }
 
