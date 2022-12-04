@@ -15,15 +15,15 @@ class LoginBloc extends Cubit<LoginState> {
         : const PhoneInputState(error: 'Не вырный формат'));
   }
 
-  Future<void> onPinEntered(TextEditingController code, String phone) async {
+  Future<void> onPinEntered(TextEditingController codeTextController, String phone) async {
     emit(const LoadingState());
     try {
       //  final token =
-      await repository.checkCode(phone, code.text);
-   emit(const LoginSuccessState());
+      await repository.checkCode(phone, codeTextController.text);
+      emit(const LoginSuccessState());
     } on Exception catch (_) {
-      code.text = '';
- emit(const PhoneInputState(error: 'Error checking Pin'));
+      codeTextController.text = '';
+      emit(const PhoneInputState(error: 'Error checking Pin'));
     }
   }
 
@@ -32,9 +32,9 @@ class LoginBloc extends Cubit<LoginState> {
       try {
         emit(const LoadingState());
         await repository.requestSms(phone);
-emit(SmsRequestedState(phone));
+        emit(SmsRequestedState(phone));
       } on Exception catch (_) {
- emit(const PhoneInputState(error: 'Error geting Sms'));
+        emit(const PhoneInputState(error: 'Error geting Sms'));
       }
     }
   }
