@@ -25,8 +25,13 @@ class SmsRequestedState extends LoginState {
 }
 
 class LoginSuccessState extends LoginState {
-  const LoginSuccessState(bool isLoading) : super(isLoading: isLoading);
+  const LoginSuccessState();
       @override
-  List<Object?> get props => [isLoading];
+  List<Object?> get props => [];
+}
+class LoadingState extends LoginState {
+  const LoadingState();
+      @override
+  List<Object?> get props => [];
 }
 

@@ -28,9 +28,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> phoneEntered(PhoneEnteredEvent event) async* {
     if (regex.hasMatch(event.phone)) {
       try {
-        yield const LoginSuccessState(true);
+        yield const LoadingState();
         await repository.requestSms(event.phone);
-        const LoginSuccessState(false);
         yield SmsRequestedState(event.phone);
       } on Exception catch (_) {
         yield const PhoneInputState(error: 'Error geting Sms');
@@ -39,11 +38,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> checkEnteredCode(CheckEnteredCode event) async* {
-    yield const LoginSuccessState(true);
+            yield const LoadingState();
     try {
       //  final token =
       await repository.checkCode(event.phone, event.code);
-      yield const LoginSuccessState(false);
+      yield const LoginSuccessState();
     } on Exception catch (_) {
       yield const PhoneInputState(error: 'Pin is not valid');
     }
