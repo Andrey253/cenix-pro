@@ -12,18 +12,26 @@ abstract class LoginState extends Equatable {
 
 class PhoneInputState extends LoginState {
   const PhoneInputState({String? error}) : super(error: error);
+    @override
+  List<Object?> get props => [error];
 }
 
 class SmsRequestedState extends LoginState {
   const SmsRequestedState(this.phone, {String? error}) : super(error: error);
 
   final String phone;
+    @override
+  List<Object?> get props => [phone,error];
 }
 
 class LoginSuccessState extends LoginState {
   const LoginSuccessState();
+    @override
+  List<Object?> get props => [];
 }
 class LoadingState extends LoginState {
   const LoadingState();
+    @override
+  List<Object?> get props => [];
 }
 
