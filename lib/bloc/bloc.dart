@@ -15,18 +15,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginEvent event,
   ) async* {
     if (event is PhoneChangeEvent) {
-      yield* phoneChange(repository, state, event);
+      yield* phoneChange(event);
     } else if (event is CheckEnteredCode) {
-      yield* checkEnteredCode(repository, state, event);
+      yield* checkEnteredCode(event);
     } else if (event is ReenterPhoneEvent) {
-      yield* reenterPhone(repository, state, event);
+      yield* reenterPhone(event);
     } else if (event is PhoneEnteredEvent) {
-      yield* phoneEntered(repository, state, event);
+      yield* phoneEntered(event);
     }
   }
 
-  Stream<LoginState> phoneEntered(
-      LoginRepository repository, LoginState state, PhoneEnteredEvent event) async* {
+  Stream<LoginState> phoneEntered(PhoneEnteredEvent event) async* {
     if (regex.hasMatch(event.phone)) {
       try {
         yield const LoginSuccessState(true);
@@ -39,8 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> checkEnteredCode(
-      LoginRepository repository, LoginState state, CheckEnteredCode event) async* {
+  Stream<LoginState> checkEnteredCode(CheckEnteredCode event) async* {
     yield const LoginSuccessState(true);
     try {
       //  final token =
@@ -51,8 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> phoneChange(
-      LoginRepository repository, LoginState state, PhoneChangeEvent event) async* {
+  Stream<LoginState> phoneChange(PhoneChangeEvent event) async* {
     if (regex.hasMatch(event.phone)) {
       yield const PhoneInputState();
     } else {
@@ -60,8 +57,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> reenterPhone(
-      LoginRepository repository, LoginState state, ReenterPhoneEvent event) async* {
+  Stream<LoginState> reenterPhone(ReenterPhoneEvent event) async* {
     yield const PhoneInputState();
   }
 }
