@@ -5,14 +5,14 @@ abstract class LoginState extends Equatable {
 
   final String? error;
 
-
   @override
   List<Object?> get props => [error];
 }
 
 class PhoneInputState extends LoginState {
   const PhoneInputState({String? error}) : super(error: error);
-    @override
+
+  @override
   List<Object?> get props => [error];
 }
 
@@ -20,18 +20,21 @@ class SmsRequestedState extends LoginState {
   const SmsRequestedState(this.phone, {String? error}) : super(error: error);
 
   final String phone;
-    @override
-  List<Object?> get props => [phone,error];
+
+  @override
+  List<Object?> get props => [phone, error];
 }
 
 class LoginSuccessState extends LoginState {
   const LoginSuccessState();
-    @override
-  List<Object?> get props => [];
-}
-class LoadingState extends LoginState {
-  const LoadingState();
-    @override
+
+  @override
   List<Object?> get props => [];
 }
 
+class LoadingState extends LoginState {
+  const LoadingState();
+
+  @override
+  List<Object?> get props => [];
+}
