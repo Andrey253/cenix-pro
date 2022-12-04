@@ -5,9 +5,9 @@ import 'package:test_task/repository/repository.dart';
 class MockLoginRepositoryImplementation extends LoginRepository {
   @override
   Future<String> checkCode(String phone, String code) async {
-    await Future.delayed(const Duration(milliseconds: 2200));
+    await Future.delayed(const Duration(milliseconds: 1200));
     final random = Random().nextBool();
-    if (false) {
+    if (random) {
       return 'token';
     } else {
       throw Exception('Code is incorrect');
@@ -16,7 +16,7 @@ class MockLoginRepositoryImplementation extends LoginRepository {
 
   @override
   Future requestSms(String phone) async {
-    await Future.delayed(const Duration(milliseconds: 2200));
+    await Future.delayed(const Duration(milliseconds: 1200));
     final random = Random().nextBool();
     
     if (!random) {
